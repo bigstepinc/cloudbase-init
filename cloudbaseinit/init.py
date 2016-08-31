@@ -27,6 +27,9 @@ from cloudbaseinit import version
 opts = [
     cfg.BoolOpt('allow_reboot', default=True, help='Allows OS reboots '
                 'requested by plugins'),
+    cfg.BoolOpt('allow_reboot_after_plugins', default=False, help='Allows '
+                'OS reboots requested by plugins to be executed after all'
+                'plugins have been executed'),
     cfg.BoolOpt('stop_service_on_exit', default=True, help='In case of '
                 'execution as a service, specifies if the service '
                 'must be gracefully stopped before exiting'),
@@ -158,7 +161,8 @@ class InitManager(object):
             finally:
                 service.cleanup()
 
-        if reboot_required and CONF.allow_reboot:
+        if (reboot_required and
+                (CONF.allow_reboot or CONF.allow_reboot_after_plugins)):
             try:
                 LOG.info("Rebooting")
                 osutils.reboot()
