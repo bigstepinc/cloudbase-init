@@ -66,10 +66,25 @@ class WindowsLicensingPlugin(base.BasePlugin):
         else:
             license_info = self._run_slmgr(osutils, ['/dlv'])
             LOG.info('Microsoft Windows license info:\n%s' % license_info)
-
+            reboot_required = False
             if CONF.activate_windows:
+                if service.get_licensing_info() is not None:
+                    licensing_information = service.get_licensing_info()
+                    if "kms-server" in licensing_information:
+                        LOG.info("Setting KMS server")
+                        result = self._run_slmgr(
+                            osutils,
+                            ["/skms", licensing_information["kms-server"]]
+                        )
+                        LOG.info("Setting KMS server result:\n%s" % result)
+                    if "rearm-instance" in licensing_information:
+                        if licensing_information["rearm-instance"]:
+                            LOG.info("Rearming license")
+                            result = self._run_slmgr(osutils, ["/rearm"])
+                            LOG.info("Rearming result:\n%s" % result)
+                            reboot_required = True
                 LOG.info("Activating Windows")
                 activation_result = self._run_slmgr(osutils, ['/ato'])
                 LOG.debug("Activation result:\n%s" % activation_result)
 
-        return base.PLUGIN_EXECUTION_DONE, False
+        return base.PLUGIN_EXECUTION_DONE, reboot_required
