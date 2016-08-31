@@ -117,6 +117,9 @@ class BaseMetadataService(object):
     def get_user_data(self):
         pass
 
+    def get_licensing_info(self):
+        return None
+
     def get_decoded_user_data(self):
         """Get the decoded user data, if any
 
