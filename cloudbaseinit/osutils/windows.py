@@ -323,6 +323,14 @@ class WindowsUtils(base.BaseOSUtils):
             raise exception.CloudbaseInitException(
                 "Create user failed: %s" % ex.args[2])
 
+    def hide_user(self, username):
+        keypath = ("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"
+                   "\\Winlogon\\SpecialAccounts")
+        winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, keypath)
+        keyparh = keypath + "\\UserList"
+        with winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, keypath) as key:
+            winreg.SetValueEx(key, username, 0, winreg.REG_DWORD, 0)
+
     def _get_user_info(self, username, level):
         try:
             return win32net.NetUserGetInfo(None, username, level)

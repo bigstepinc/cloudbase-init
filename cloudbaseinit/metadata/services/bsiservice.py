@@ -59,6 +59,21 @@ class BSIService(base.BaseMetadataService):
         else:
             pass
 
+    def get_additional_users(self):
+        if "additional_users" in self.decoded_information["metadata"]:
+            return self.decoded_information["metadata"]["additional_users"]
+        else:
+            pass
+
+    def post_additional_user_password(self, username, password):
+        if "user_password_set_url" in self.decoded_information["metadata"]:
+            metadata = self.decoded_information["metadata"]
+            url = str(metadata["user_password_set_url"])
+            user_info = {"username": username, "password": password}
+            r = requests.post(url, json=user_info)
+        else:
+            pass
+
     def get_host_name(self):
         return str(self.decoded_information["metadata"]["hostname"])
 

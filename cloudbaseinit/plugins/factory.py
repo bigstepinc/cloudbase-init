@@ -34,6 +34,8 @@ opts = [
             'cloudbaseinit.plugins.common.userdata.UserDataPlugin',
             'cloudbaseinit.plugins.common.setuserpassword.'
             'SetUserPasswordPlugin',
+			'cloudbaseinit.plugins.common.serviceaddusers.'
+            'ServiceAddUsers',
             'cloudbaseinit.plugins.windows.winrmlistener.'
             'ConfigWinRMListenerPlugin',
             'cloudbaseinit.plugins.windows.winrmcertificateauth.'

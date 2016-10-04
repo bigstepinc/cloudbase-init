@@ -120,6 +120,12 @@ class BaseMetadataService(object):
     def get_licensing_info(self):
         pass
 
+    def get_additional_users(self):
+        pass
+
+    def post_additional_user_password(self, username, password):
+        pass
+
     def get_decoded_user_data(self):
         """Get the decoded user data, if any
 
