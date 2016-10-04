@@ -1,6 +1,7 @@
 import json
 import posixpath
 import time
+import requests
 
 from oslo_config import cfg
 from oslo_log import log as oslo_logging

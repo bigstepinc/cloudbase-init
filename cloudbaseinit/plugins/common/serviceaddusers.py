@@ -48,3 +48,4 @@ class ServiceAddUsers(base.BasePlugin):
                             except Exception:
                                 LOG.exception('Cannot add user to group "%s"',
                                               groupname)
+        return base.PLUGIN_EXECUTION_DONE, False
