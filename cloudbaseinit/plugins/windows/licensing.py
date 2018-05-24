@@ -83,6 +83,8 @@ class WindowsLicensingPlugin(base.BasePlugin):
                             result = self._run_slmgr(osutils, ["/rearm"])
                             LOG.info("Rearming result:\n%s" % result)
                             reboot_required = True
+                            LOG.info("Not running the activation anymore, as it will fail after rearming")
+                            return base.PLUGIN_EXECUTE_ON_NEXT_BOOT, reboot_required
                 LOG.info("Activating Windows")
                 activation_result = self._run_slmgr(osutils, ['/ato'])
                 LOG.debug("Activation result:\n%s" % activation_result)
