@@ -672,9 +672,12 @@ class WindowsUtils(base.BaseOSUtils):
                                                     "GeneralizationState")[0]
                     if gen_state == 7:
                         break
-                    time.sleep(1)
-                    LOG.info('Waiting for sysprep completion. '
-                             'GeneralizationState: %d', gen_state)
+                    # Bigstep -> not executing service during sysprep
+                    LOG.info('Stopping service, as sysprep is running')
+                    self.terminate()                   
+                    # time.sleep(1)
+                    # LOG.info('Waiting for sysprep completion. '
+                    #         'GeneralizationState: %d', gen_state)
         except WindowsError as ex:
             if ex.winerror == 2:
                 LOG.debug('Sysprep data not found in the registry, '
